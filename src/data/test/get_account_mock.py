@@ -23,7 +23,6 @@ class GetAccountMock:
 
         if validate:
             response = mock_account()
-            print(response)
             self.account_balance_param["balance"] = response.balance
 
         return {"Success": validate, "Data": response}
