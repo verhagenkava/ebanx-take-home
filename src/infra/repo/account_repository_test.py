@@ -42,7 +42,7 @@ def test_get_account():
 
     engine.execute(f'DELETE FROM accounts WHERE id="{account_id}";')
 
-    assert account in account_query
+    assert account == account_query
 
 
 def test_update_account():

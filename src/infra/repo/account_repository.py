@@ -1,5 +1,4 @@
 from collections import namedtuple
-from typing import List
 from sqlalchemy.orm.exc import NoResultFound
 from src.data.interfaces import AccountRepositoryInterface
 from src.domain.models import Accounts
@@ -33,7 +32,7 @@ class AccountRepository(AccountRepositoryInterface):
                 db_connection.session.close()
 
     @classmethod
-    def get_account(cls, account_id: int) -> List[Accounts]:
+    def get_account(cls, account_id: int) -> Accounts:
         """Method for getting data from accounts entity by id
         :param - account_id: Account id
         :return - List with Accounts found"""
@@ -49,12 +48,12 @@ class AccountRepository(AccountRepositoryInterface):
                         .filter_by(id=account_id)
                         .one()
                     )
-                    query_data = [data]
+                    query_data = data
 
             return query_data
 
         except NoResultFound:
-            return []
+            return None
         except:
             db_connection.session.rollback()
             raise

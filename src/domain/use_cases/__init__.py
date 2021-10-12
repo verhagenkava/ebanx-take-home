@@ -1,3 +1,3 @@
-from .create_account import CreateAccount
+from .deposit_account import DepositAccount
 from .get_account import GetAccount
 from .update_account import UpdateAccount

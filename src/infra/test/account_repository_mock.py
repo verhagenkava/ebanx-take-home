@@ -1,4 +1,3 @@
-from typing import List
 from src.domain.models import Accounts
 from src.domain.test import mock_account
 
@@ -18,11 +17,11 @@ class AccountRepositoryMock:
 
         return mock_account()
 
-    def get_account(self, account_id: int) -> List[Accounts]:
+    def get_account(self, account_id: int) -> Accounts:
         """Mock for the attributes"""
         self.get_account_params["account_id"] = account_id
 
-        return [mock_account]
+        return mock_account()
 
     def update_account(self, account_id: int, balance: float) -> Accounts:
         """Mock for the attributes"""
