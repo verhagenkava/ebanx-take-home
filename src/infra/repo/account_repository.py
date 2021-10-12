@@ -1,12 +1,13 @@
 from collections import namedtuple
 from typing import List
 from sqlalchemy.orm.exc import NoResultFound
+from src.data.interfaces import AccountRepositoryInterface
 from src.domain.models import Accounts
 from src.infra.config import DBConnectionHandler
 from src.infra.entities import Accounts as AccountsModel
 
 
-class AccountRepository:
+class AccountRepository(AccountRepositoryInterface):
     """Account Repository Manager"""
 
     @classmethod
