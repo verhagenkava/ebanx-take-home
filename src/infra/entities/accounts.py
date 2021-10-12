@@ -10,5 +10,10 @@ class Accounts(Base):
     id = Column(Integer, primary_key=True)
     balance = Column(Float, nullable=False)
 
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f"Account [id={self.id}]"
+
+    def __eq__(self, other):
+        if self.id == other.id and self.balance == other.balance:
+            return True
+        return False
