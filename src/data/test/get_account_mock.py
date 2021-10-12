@@ -1,6 +1,7 @@
 from typing import Dict
-from src.domain.models import Accounts
 from faker import Faker
+from src.domain.models import Accounts
+from src.domain.test import mock_account
 
 faker = Faker()
 
@@ -21,8 +22,8 @@ class GetAccountMock:
         validate = isinstance(account_id, int) and account_id == 100
 
         if validate:
-            balance = faker.pyfloat(positive=True, min_value=100.0)
-            response = Accounts(id=100, balance=balance)
-            self.account_balance_param["balance"] = balance
+            response = mock_account()
+            print(response)
+            self.account_balance_param["balance"] = response.balance
 
         return {"Success": validate, "Data": response}

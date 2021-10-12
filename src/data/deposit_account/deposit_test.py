@@ -43,7 +43,7 @@ def test_deposit_existing_account():
 
     attributes = {
         "account_id": 100,
-        "amount": 100.0,
+        "amount": faker.pyfloat(positive=True),
     }
 
     response = deposit_account.deposit(

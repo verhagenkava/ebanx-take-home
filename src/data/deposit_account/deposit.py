@@ -30,11 +30,10 @@ class DepositAccount(DepositAccountInterface):
                 account_id=account_id, balance=amount
             )
         elif validate and existing_account["Success"]:
-            if amount <= existing_account["Data"].balance:
-                new_balance = float(existing_account["Data"].balance + amount)
-                response = self.account_repository.update_account(
-                    account_id=account_id, balance=new_balance
-                )
+            new_balance = float(existing_account["Data"].balance + amount)
+            response = self.account_repository.update_account(
+                account_id=account_id, balance=new_balance
+            )
 
         return {"Success": validate, "Data": response}
 
