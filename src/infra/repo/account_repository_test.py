@@ -43,3 +43,26 @@ def test_get_account():
     engine.execute(f'DELETE FROM accounts WHERE id="{account_id}";')
 
     assert account in account_query
+
+
+def test_update_account():
+    """Should update balance for existing account"""
+
+    account_id = faker.random_number(digits=3)
+    balance = faker.pyfloat(positive=True)
+    new_balance = faker.pyfloat(positive=True)
+    account = AccountsModel(id=account_id, balance=new_balance)
+
+    engine = db_connection.get_engine()
+    engine.execute(
+        f'INSERT INTO accounts (id, balance) VALUES ("{account_id}", "{balance}");'
+    )
+
+    account_query = account_repository.update_account(
+        account_id=account_id, balance=new_balance
+    )
+
+    engine.execute(f'DELETE FROM accounts WHERE id="{account_id}";')
+
+    assert account.id == account_query.id
+    assert account.balance == account_query.balance

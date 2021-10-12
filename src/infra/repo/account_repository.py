@@ -59,3 +59,36 @@ class AccountRepository:
             raise
         finally:
             db_connection.session.close()
+
+    @classmethod
+    def update_account(cls, account_id: int, balance: float) -> Accounts:
+        """Method for updating data in accounts entity by id
+        :params - account_id: Account id
+                - balance: Account balance
+        :return - Tuple with updated Account"""
+
+        InsertedData = namedtuple("Accounts", "id balance")
+
+        with DBConnectionHandler() as db_connection:
+            try:
+                account = (
+                    db_connection.session.query(AccountsModel)
+                    .filter_by(id=account_id)
+                    .one()
+                )
+                account.balance = balance
+                updated_account = (
+                    db_connection.session.query(AccountsModel)
+                    .filter_by(id=account_id)
+                    .one()
+                )
+                db_connection.session.commit()
+
+                return InsertedData(
+                    id=updated_account.id, balance=updated_account.balance
+                )
+            except:
+                db_connection.session.rollback()
+                raise
+            finally:
+                db_connection.session.close()
