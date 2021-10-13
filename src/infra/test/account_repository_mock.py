@@ -28,4 +28,6 @@ class AccountRepositoryMock:
         self.update_account_params["account_id"] = account_id
         self.update_account_params["balance"] = balance
 
+        if account_id == 100:
+            return mock_account(account_id=account_id)
         return mock_account()

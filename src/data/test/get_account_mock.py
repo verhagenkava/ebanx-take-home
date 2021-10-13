@@ -22,7 +22,7 @@ class GetAccountMock:
         validate = isinstance(account_id, int) and account_id == 100
 
         if validate:
-            response = mock_account(min_value=100.0)
+            response = mock_account(account_id=account_id, min_value=100.0)
             self.account_balance_param["balance"] = response.balance
 
         return {"Success": validate, "Data": response}
