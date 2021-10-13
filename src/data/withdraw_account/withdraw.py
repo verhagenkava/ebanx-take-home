@@ -25,7 +25,7 @@ class WithdrawAccount(WithdrawAccountInterface):
         validate = isinstance(account_id, int) and isinstance(amount, float)
         existing_account = self.__get_account(account_id)
 
-        if validate and existing_account["Success"]:
+        if validate and existing_account["Data"] is not None:
             if amount <= existing_account["Data"].balance:
                 new_balance = float(existing_account["Data"].balance - amount)
                 response = self.account_repository.update_account(

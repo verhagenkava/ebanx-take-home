@@ -25,7 +25,7 @@ class DepositAccount(DepositAccountInterface):
         validate = isinstance(account_id, int) and isinstance(amount, float)
         existing_account = self.__get_account(account_id)
 
-        if validate and not existing_account["Success"]:
+        if validate and existing_account["Data"] is None:
             response = self.account_repository.create_account(
                 account_id=account_id, balance=amount
             )
