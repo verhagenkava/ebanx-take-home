@@ -1,4 +1,6 @@
 from flask import Blueprint, jsonify, request
+from src.infra.config import DBConnectionHandler
+from src.infra.entities import Accounts
 from src.main.composer import get_account_composer
 from src.main.composer import deposit_account_composer
 from src.main.composer import withdraw_account_composer
@@ -6,6 +8,23 @@ from src.main.composer import transfer_account_composer
 from src.main.adapter import flask_adapter
 
 api_routes_blueprint = Blueprint("api_routes", __name__)
+
+
+@api_routes_blueprint.route("/reset", methods=["POST"])
+def reset_application():
+    """Application Reset Route"""
+
+    with DBConnectionHandler() as db_connection:
+        try:
+            db_connection.session.query(Accounts).delete()
+            db_connection.session.commit()
+
+            return "OK", 200
+        except:
+            db_connection.session.rollback()
+            raise
+        finally:
+            db_connection.session.close()
 
 
 @api_routes_blueprint.route("/balance", methods=["GET"])
