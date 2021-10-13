@@ -1,10 +1,11 @@
 from typing import Type
+from src.main.interface import RouteInterface
 from src.domain.use_cases import GetAccount
 from src.presenters.helpers import HttpRequest, HttpResponse
 from src.presenters.errors import HttpErrors
 
 
-class GetAccountController:
+class GetAccountController(RouteInterface):
     """Get Account use case controller"""
 
     def __init__(self, get_account_use_case: Type[GetAccount]):
@@ -24,7 +25,7 @@ class GetAccountController:
             else:
                 response = {"Success": False, "Data": None}
 
-            if not response["Success"]:
+            if response["Data"] is None:
                 http_error = HttpErrors.error_404()
                 return HttpResponse(
                     status_code=http_error["status_code"], body=http_error["body"]

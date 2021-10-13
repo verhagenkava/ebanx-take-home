@@ -1,10 +1,11 @@
 from typing import Type
+from src.main.interface import RouteInterface
 from src.domain.use_cases import DepositAccount
 from src.presenters.helpers import HttpRequest, HttpResponse
 from src.presenters.errors import HttpErrors
 
 
-class DepositAccountController:
+class DepositAccountController(RouteInterface):
     """Deposit in Account use case controller"""
 
     def __init__(self, deposit_account_use_case: Type[DepositAccount]):
@@ -17,20 +18,15 @@ class DepositAccountController:
 
         if http_request.body:
 
-            body = http_request.body
             body_params = http_request.body.keys()
 
-            if body["type"] == "deposit":
-                if "destination" in body_params and "amount" in body_params:
-                    account_id = int(http_request.body["destination"])
-                    amount = float(http_request.body["amount"])
+            if "destination" in body_params and "amount" in body_params:
+                account_id = int(http_request.body["destination"])
+                amount = float(http_request.body["amount"])
 
-                    response = self.deposit_account_use_case.deposit(
-                        account_id=account_id, amount=amount
-                    )
-                else:
-                    response = {"Success": False, "Data": None}
-
+                response = self.deposit_account_use_case.deposit(
+                    account_id=account_id, amount=amount
+                )
             else:
                 response = {"Success": False, "Data": None}
 
@@ -42,7 +38,6 @@ class DepositAccountController:
 
             return HttpResponse(status_code=201, body=response["Data"])
 
-        # If no body in http_request
         https_error = HttpErrors.error_400()
         return HttpResponse(
             status_code=https_error["status_code"], body=https_error["body"]
