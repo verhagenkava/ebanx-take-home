@@ -19,7 +19,7 @@ class GetAccountController:
             query_string_params = http_request.query.keys()
 
             if "account_id" in query_string_params:
-                account_id = http_request.query["account_id"]
+                account_id = int(http_request.query["account_id"])
                 response = self.get_account_use_case.get(account_id=account_id)
             else:
                 response = {"Success": False, "Data": None}

@@ -12,10 +12,10 @@ def test_route():
     """Testing Route method for get account use case"""
 
     get_account = GetAccountMock(AccountRepositoryMock())
-    find_user_controller = GetAccountController(get_account)
+    get_account_controller = GetAccountController(get_account)
     http_request = HttpRequest(query={"account_id": 100})
 
-    response = find_user_controller.route(http_request)
+    response = get_account_controller.route(http_request)
 
     assert (
         get_account.account_id_param["account_id"] == http_request.query["account_id"]
@@ -29,10 +29,10 @@ def test_route_non_existing_account():
     """Testing Route method for get account use case non existing account"""
 
     get_account = GetAccountMock(AccountRepositoryMock())
-    find_user_controller = GetAccountController(get_account)
+    get_account_controller = GetAccountController(get_account)
     http_request = HttpRequest(query={"account_id": faker.random_number(digits=2)})
 
-    response = find_user_controller.route(http_request)
+    response = get_account_controller.route(http_request)
 
     assert (
         get_account.account_id_param["account_id"] == http_request.query["account_id"]
