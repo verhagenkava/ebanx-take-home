@@ -15,7 +15,10 @@ def flask_adapter(request: any, api_route: Type[Route]) -> any:
         query_string_params = request.args.to_dict()
 
         if "account_id" in query_string_params.keys():
+            body = None
             query_string_params["account_id"] = int(query_string_params["account_id"])
+        else:
+            body = request.json
 
     except:
         http_error = HttpErrors.error_400()
@@ -24,13 +27,13 @@ def flask_adapter(request: any, api_route: Type[Route]) -> any:
         )
 
     http_request = HttpRequest(
-        header=request.headers, body=request.json, query=query_string_params
+        header=request.headers, body=body, query=query_string_params
     )
 
     try:
         response = api_route.route(http_request)
     except IntegrityError:
-        http_error = HttpErrors.error_409()
+        http_error = HttpErrors.error_400()
         return HttpResponse(
             status_code=http_error["status_code"], body=http_error["body"]
         )
